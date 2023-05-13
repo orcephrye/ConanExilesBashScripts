@@ -15,6 +15,8 @@ fi
 
 if ! test -f "steamcmd.sh"; then
     echo "Downloading and extracting steamcmd failed"
+    echo "The command used was: 'curl -sqL \"https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz\" | tar zxvf -'"
+    echo "The URL may have changed this is the first thing to check."
     exit 1
 fi
 
@@ -73,18 +75,21 @@ mkdir $modFile
 echo ""
 echo "The modfile to add mod IDs to is $modFile"
 echo "Each line add a new mod ID and only the mod ID."
-echo "You will also need to create and link the mods here: $serverDir/ConanSandbox/Mods/modlist.txt"
+echo "You will also need to create the dir/file here $serverDir/ConanSandbox/Mods/modlist.txt then add paths for the mods"
 echo "To learn more visit: https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#Adding_Mods"
 echo "NOTE: the script manages the mod and updates it for you that is what the $modFile is for."
 echo ""
-echo "Important configuration files located $serverDir/ConanSandbox/Saved/Config/WindowsServer/ "
+echo "Important configuration files located $CONAN_BASE_DIR/$serverDir/ConanSandbox/Saved/Config/WindowsServer/ "
 echo "The following 3 files are of most import:"
 echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/Engine.ini"
 echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/ServerSettings.ini"
 echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/Game.ini"
 echo ""
-echo "This script will check the firewall on this device."
-echo "NOTE: Make sure too open up port forwarding for 7777/udp 7778/udp 27015/udp 25575/tcp"
+
+
+echo ""
+echo "This script will now check the firewall on this device."
+echo "NOTE: Make sure too open up port forwarding on your router for 7777/udp 7778/udp 27015/udp 25575/tcp"
 echo ""
 
 
@@ -107,7 +112,7 @@ fi
 echo ""
 echo "Do you want to install a systemd control script?"
 echo ""
-read -p "Do you want to proceed? (y/n) " yn
+read -p "Please enter (y/n) " yn
 
 if [[ $yn =~ ^[Yy]$ ]]; then
     echo ""
