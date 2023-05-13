@@ -16,7 +16,10 @@ xvfb-run
 
 All these scripts take a single optional argument which is the directory that the Conan Exiles game server will be installed too. You can install and run multiple instances of Conan: Exiles (as long as you change ports) using these scripts.
 
-IE: ./setup.sh conanServer
+IE:
+```bash 
+./setup.sh conanServer
+```
 
 If no argument is passed the scripts will assume the install directory is 'conan'.
 
