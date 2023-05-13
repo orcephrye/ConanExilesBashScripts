@@ -1,0 +1,14 @@
+[Unit]
+Description=Conan Exiles server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=forking
+User=<CONAN_USER>
+WorkingDirectory=<CONAN_BASE_DIR>
+ExecStart=<CONAN_BASE_DIR>/start.sh <CONAN_INSTANCE_NAME>
+ExecStop=<CONAN_BASE_DIR>/stop.sh <CONAN_INSTANCE_NAME>
+
+[Install]
+WantedBy=multi-user.target

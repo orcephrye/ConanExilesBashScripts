@@ -1,34 +1,47 @@
 #!/bin/bash
 
+if [ "$EUID" -eq 0 ]; then 
+  echo "Do not run as root! Run as the user that the service should start as or the user directory it is installed under"
+  exit
+fi
 
-if ! test -f "steamcmd.sh"
-then
+
+if ! test -f "steamcmd.sh"; then
     curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 else
     echo "steamcmd.sh already exists no need to download"
 fi
 
 
-if ! test -f "steamcmd.sh"
-then
+if ! test -f "steamcmd.sh"; then
     echo "Downloading and extracting steamcmd failed"
     exit 1
 fi
 
-if test -z "$1"
-then
+if test -z "$1"; then
     echo "You have not provided a directory for installing Conan: Exiles. Assuming the default dir value of 'conan'"
     serverDir="conan"
 else
     serverDir="$1"
 fi
 
-if test -d "$serverDir"
-then
+if test -d "$serverDir"; then
     echo "Directory $serverDir already exists! If you wish to re-install move or delete this dir first ie: mv $serverDir $serverDir.bck or rm -rf $serverDir"
 else
     mkdir $serverDir
 fi
+
+CONAN_USER=$(whoami)
+CONAN_INSTANCE_NAME=$serverDir
+CONAN_BASE_DIR=$(pwd)
+
+
+echo "==================================================="
+echo "Installing $CONAN_INSTANCE_NAME in $CONAN_BASE_DIR"
+echo "This will be using the $CONAN_USER user"
+echo "==================================================="
+read -n 1 -s -r -p "Press any key to continue"
+echo ""
 
 echo "Installing Conan: Exiles"
 ./update.sh $serverDir
@@ -74,30 +87,38 @@ echo "NOTE: Make sure too open up port forwarding for 7777/udp 7778/udp 27015/ud
 echo ""
 
 
-if ! command -v firewall-cmd &> /dev/null
-then
+if ! command -v firewall-cmd &> /dev/null; then
     echo "firewall-cmd could not be found"
     echo "Cannot edit the firewall on this machine!"
-    echo "Install finished"
-    exit 0
-fi
-
-fd_state=$(firewall-cmd --state 2>&1)
-if [ "$fd_state" == "not running" ]
-then
+elif [ "$(firewall-cmd --state 2>&1)" == "not running" ]; then
     echo "Firewall not running.. no need to edit the firewall"
-    echo "Install finished"
-    exit 0
+else
+    echo "Opening up ports: 7777/udp 7778/udp 27015/udp 25575/tcp"
+
+    firewall-cmd --permanent --add-port=7777/udp
+    firewall-cmd --permanent --add-port=7778/udp
+    firewall-cmd --permanent --add-port=27015/udp
+    firewall-cmd --permanent --add-port=25575/tcp
+
+    systemctl restart firewalld
 fi
 
-echo "Opening up ports: 7777/udp 7778/udp 27015/udp 25575/tcp"
+echo "Do you "
+echo ""
+read -p "Do you want to proceed? (y/n) " yn
 
-firewall-cmd --permanent --add-port=7777/udp
-firewall-cmd --permanent --add-port=7778/udp
-firewall-cmd --permanent --add-port=27015/udp
-firewall-cmd --permanent --add-port=25575/tcp
-
-systemctl restart firewalld
+if [[ $yn =~ ^[Yy]$ ]]; then
+    echo ""
+    cp template_conan_service.service conan_$CONAN_INSTANCE_NAME.service
+    sed -i "s/<CONAN_USER>/$CONAN_USER/g" conan_$CONAN_INSTANCE_NAME.service
+    sed -i "s/<CONAN_INSTANCE_NAME>/$CONAN_INSTANCE_NAME/g" conan_$CONAN_INSTANCE_NAME.service
+    sed -i "s|<CONAN_BASE_DIR>|$CONAN_BASE_DIR|g" conan_$CONAN_INSTANCE_NAME.service
+    sudo mv conan_$CONAN_INSTANCE_NAME.service /etc/systemd/system/conan_$CONAN_INSTANCE_NAME.service
+    systemctl daemon-reload
+    systemctl enable conan_$CONAN_INSTANCE_NAME.service
+    echo ""
+    echo "You can now run systemctl start conan_$CONAN_INSTANCE_NAME as well as status and stop commands to control the instance"
+fi
 
 echo "Install finished"
 exit 0
