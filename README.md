@@ -2,9 +2,13 @@
 Bash scripts for controlling a Conan Exiles server
 
 The insperation for these scripts comes from reading:
+
 https://developer.valvesoftware.com/wiki/SteamCMD#Manually
+
 and...
+
 https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
+
 
 ## Dependancies
 
