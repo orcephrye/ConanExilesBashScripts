@@ -119,7 +119,7 @@ elif [ "$(firewall-cmd --state 2>&1)" == "not running" ]; then
 else
     echo "Opening up ports: 7777/udp 7778/udp 27015/udp 25575/tcp"
 
-    su -c "firewall-cmd --permanent --add-port=7777/udp; firewall-cmd --permanent --add-port=7778/udp; firewall-cmd --permanent --add-port=27015/udp; irewall-cmd --permanent --add-port=25575/tcp; systemctl restart firewalld" root
+    su -c "firewall-cmd --permanent --add-port=7777/udp; firewall-cmd --permanent --add-port=7778/udp; firewall-cmd --permanent --add-port=27015/udp; firewall-cmd --permanent --add-port=25575/tcp; systemctl restart firewalld" root
 fi
 
 echo ""
