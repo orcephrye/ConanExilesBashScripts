@@ -9,8 +9,11 @@ https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 ## Dependancies
 
 wine
+
 screen
+
 xvfb-run
+
 
 ## Usage
 
@@ -47,5 +50,8 @@ https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#Confi
 ## TODOs
 
 Need to add backup support. 
+
 Need to add systemctl support.
+
 Change the way mod support works to make it more simple.
+
