@@ -119,12 +119,7 @@ elif [ "$(firewall-cmd --state 2>&1)" == "not running" ]; then
 else
     echo "Opening up ports: 7777/udp 7778/udp 27015/udp 25575/tcp"
 
-    firewall-cmd --permanent --add-port=7777/udp
-    firewall-cmd --permanent --add-port=7778/udp
-    firewall-cmd --permanent --add-port=27015/udp
-    firewall-cmd --permanent --add-port=25575/tcp
-
-    systemctl restart firewalld
+    su -c "firewall-cmd --permanent --add-port=7777/udp; firewall-cmd --permanent --add-port=7778/udp; firewall-cmd --permanent --add-port=27015/udp; irewall-cmd --permanent --add-port=25575/tcp; systemctl restart firewalld" root
 fi
 
 echo ""
@@ -138,9 +133,7 @@ if [[ $yn =~ ^[Yy]$ ]]; then
     sed -i "s/<CONAN_USER>/$CONAN_USER/g" conan_$CONAN_INSTANCE_NAME.service
     sed -i "s/<CONAN_INSTANCE_NAME>/$CONAN_INSTANCE_NAME/g" conan_$CONAN_INSTANCE_NAME.service
     sed -i "s|<CONAN_BASE_DIR>|$CONAN_BASE_DIR|g" conan_$CONAN_INSTANCE_NAME.service
-    sudo mv conan_$CONAN_INSTANCE_NAME.service /etc/systemd/system/conan_$CONAN_INSTANCE_NAME.service
-    systemctl daemon-reload
-    systemctl enable conan_$CONAN_INSTANCE_NAME.service
+    su -c "mv conan_$CONAN_INSTANCE_NAME.service /etc/systemd/system/conan_$CONAN_INSTANCE_NAME.service; systemctl daemon-reload; systemctl enable conan_$CONAN_INSTANCE_NAME.service" root
     echo ""
     echo "You can now run systemctl start conan_$CONAN_INSTANCE_NAME as well as status and stop commands to control the instance"
 fi
