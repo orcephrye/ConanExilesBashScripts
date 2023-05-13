@@ -67,9 +67,10 @@ echo ""
 
 ./stop.sh $serverDir
 
-modFile="$serverDir/"$serverDir"Mods.list"
+modFile="$serverDir/${serverDir}Mods.list"
 mkdir $modFile
 
+echo ""
 echo "The modfile to add mod IDs to is $modFile"
 echo "Each line add a new mod ID and only the mod ID."
 echo "You will also need to create and link the mods here: $serverDir/ConanSandbox/Mods/modlist.txt"
@@ -103,7 +104,8 @@ else
     systemctl restart firewalld
 fi
 
-echo "Do you "
+echo ""
+echo "Do you want to install a systemd control script?"
 echo ""
 read -p "Do you want to proceed? (y/n) " yn
 

@@ -10,7 +10,7 @@ fi
 ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login anonymous +force_install_dir "/home/conan/$serverDir" +app_update 443030 +exit
 
 
-input="$serverDir/"$serverDir"Mods.list"
+input="$serverDir/${serverDir}Mods.list"
 if test -f $input
 then
   while IFS= read -r MOD_ID
