@@ -20,6 +20,24 @@ if ! test -f "steamcmd.sh"; then
     exit 1
 fi
 
+echo "Checking for dependencies "
+
+if ! command -v wine &> /dev/null; then
+    echo "Could not find the command 'wine'. This is required too run Conan Exiles. Please use your Linux Distro's package management system to install 'wine'"
+    echo "The three primary dependencies are: 'wine', 'screen', 'xvfb-run'"
+fi
+
+if ! command -v screen &> /dev/null; then
+    echo "Could not find the command 'screen'. This is required too run Conan Exiles. Please use your Linux Distro's package management system to install 'screen'"
+    echo "The three primary dependencies are: 'wine', 'screen', 'xvfb-run'"
+fi
+
+if ! command -v xvfb-run &> /dev/null; then
+    echo "Could not find the command 'xvfb-run'. This is required too run Conan Exiles. Please use your Linux Distro's package management system to install 'xvfb-run'"
+    echo "The three primary dependencies are: 'wine', 'screen', 'xvfb-run'"
+fi
+
+
 if test -z "$1"; then
     echo "You have not provided a directory for installing Conan: Exiles. Assuming the default dir value of 'conan'"
     serverDir="conan"

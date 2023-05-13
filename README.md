@@ -10,7 +10,7 @@ and...
 https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 
 
-## Dependancies
+## Dependencies
 
 wine
 
