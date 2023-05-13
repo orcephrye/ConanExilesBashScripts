@@ -88,7 +88,7 @@ echo ""
 ./stop.sh $serverDir
 
 modFile="$serverDir/${serverDir}Mods.list"
-mkdir $modFile
+touch $modFile
 
 echo ""
 echo "The modfile to add mod IDs to is $modFile"

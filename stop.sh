@@ -16,4 +16,4 @@ then
     echo "" > "conan_$serverDir.lockfile"
 fi
 
-./status.sh $serverDir
+/bin/bash status.sh $serverDir

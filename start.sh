@@ -7,9 +7,9 @@ else
     serverDir="$1"
 fi
 
-./update.sh $serverDir
+/bin/bash update.sh $serverDir
 screen -d -S $serverDir -m bash conan.sh $serverDir
 
 sleep 2
 
-./status.sh $serverDir
+/bin/bash status.sh $serverDir
