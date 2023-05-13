@@ -118,7 +118,7 @@ elif [ "$(firewall-cmd --state 2>&1)" == "not running" ]; then
     echo "Firewall not running.. no need to edit the firewall"
 else
     echo "Opening up ports: 7777/udp 7778/udp 27015/udp 25575/tcp"
-
+    echo "This will ask for your root password."
     su -c "firewall-cmd --permanent --add-port=7777/udp; firewall-cmd --permanent --add-port=7778/udp; firewall-cmd --permanent --add-port=27015/udp; firewall-cmd --permanent --add-port=25575/tcp; systemctl restart firewalld" root
 fi
 
@@ -128,6 +128,8 @@ echo ""
 read -p "Please enter (y/n) " yn
 
 if [[ $yn =~ ^[Yy]$ ]]; then
+    echo ""
+    echo "This will ask for your root password."
     echo ""
     cp template_conan_service.service conan_$CONAN_INSTANCE_NAME.service
     sed -i "s/<CONAN_USER>/$CONAN_USER/g" conan_$CONAN_INSTANCE_NAME.service
