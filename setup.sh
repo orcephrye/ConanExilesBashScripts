@@ -62,9 +62,17 @@ echo "Each line add a new mod ID and only the mod ID."
 echo "You will also need to create and link the mods here: $serverDir/ConanSandbox/Mods/modlist.txt"
 echo "To learn more visit: https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#Adding_Mods"
 echo "NOTE: the script manages the mod and updates it for you that is what the $modFile is for."
-
+echo ""
+echo "Important configuration files located $serverDir/ConanSandbox/Saved/Config/WindowsServer/ "
+echo "The following 3 files are of most import:"
+echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/Engine.ini"
+echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/ServerSettings.ini"
+echo "$serverDir/ConanSandbox/Saved/Config/WindowsServer/Game.ini"
+echo ""
 echo "This script will check the firewall on this device."
 echo "NOTE: Make sure too open up port forwarding for 7777/udp 7778/udp 27015/udp 25575/tcp"
+echo ""
+
 
 if ! command -v firewall-cmd &> /dev/null
 then
