@@ -9,7 +9,7 @@ fi
 
 screen -S $serverDir -p 0 -X stuff "^c"
 
-echo "Attempting to wait for Conan Exiles to quite"
+echo "Attempting to wait for Conan Exiles to stop"
 counter=0
 i=1
 sp="/-\|"
