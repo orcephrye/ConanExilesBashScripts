@@ -7,13 +7,26 @@ else
     serverDir="$1"
 fi
 
-screen -S $serverDir -X quit
+screen -S $serverDir -p 0 -X stuff "^c"
 
-sleep 3
+echo "Attempting to wait for Conan Exiles to quite"
+counter=0
+i=1
+sp="/-\|"
+echo -n ' '
+until [ $counter -gt 60 ]
+do
+    printf "\b${sp:i++%${#sp}:1}"
+    sleep 1
+    ((counter=counter+1))
+    if ! screen -list | grep -q $serverDir
+    then
+        break
+    fi
+done
 
-if ! screen -list | grep -q $serverDir
-then
-    echo "" > "conan_$serverDir.lockfile"
-fi
+echo ""
+echo "Conan: Exiles server has stopped... checking"
+echo ""
 
 /bin/bash status.sh $serverDir
