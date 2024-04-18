@@ -8,7 +8,7 @@ else
 fi
 
 /bin/bash update.sh $serverDir
-screen -d -S $serverDir -m bash conan.sh $serverDir
+screen -dm -S $serverDir bash -c "conan.sh $serverDir"
 
 sleep 2
 
